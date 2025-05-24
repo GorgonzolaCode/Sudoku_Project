@@ -1,4 +1,5 @@
 ﻿using System;
+using MathProblems;
 
 namespace HelloWorld
 {
@@ -6,9 +7,10 @@ namespace HelloWorld
     {
         static void Main(string[] args)
         {
-            Console.Write("Hello World!");
-            string test = Console.In.ReadLine();
-            Console.WriteLine(test);
+            Console.WriteLine("Hello World!");
+            string[] result = Generator.getProblem(Generator.Types.Addition);
+            Console.WriteLine(result[0]);
+            Console.WriteLine(result[1]);
         }
     }
 }

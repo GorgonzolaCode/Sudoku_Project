@@ -8,7 +8,7 @@ namespace HelloWorld
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            string[] result = Generator.getProblem(Generator.Types.Addition);
+            string[] result = Generator.getProblem(ProblemTypes.Addition);
             Console.WriteLine(result[0]);
             Console.WriteLine(result[1]);
         }

@@ -6,13 +6,13 @@ public class Generator:GeneratorInterface
 {
 	private static Random randy = new Random();
 
-    public static string[] getProblem(GeneratorInterface.Types types)
+    public static string[] getProblem(ProblemTypes types)
 	{
 		//problem / solution
 		string[] result = { "", "" };
 		float solution = 0;
 
-		if ((types & GeneratorInterface.Types.Addition) == GeneratorInterface.Types.Addition)
+		if ((types & ProblemTypes.Addition) == ProblemTypes.Addition)
 		{
 			int a = randy.Next(10);
 			int b = randy.Next(10);

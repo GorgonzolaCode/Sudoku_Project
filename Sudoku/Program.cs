@@ -4,5 +4,5 @@ using Sudoku;
 Console.WriteLine("Hello, World!");
 
 
-GenInt gen = new Generator() as GenInt;
+SudokuInterface gen = new SimpleSudoku();
 gen.print();

@@ -1,0 +1,15 @@
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\bin\Debug\net9.0\Sudoku.exe
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\bin\Debug\net9.0\Sudoku.deps.json
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\bin\Debug\net9.0\Sudoku.runtimeconfig.json
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\bin\Debug\net9.0\Sudoku.dll
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\bin\Debug\net9.0\Sudoku.pdb
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\obj\Debug\net9.0\Sudoku.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\obj\Debug\net9.0\Sudoku.AssemblyInfoInputs.cache
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\obj\Debug\net9.0\Sudoku.AssemblyInfo.cs
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\obj\Debug\net9.0\Sudoku.csproj.CoreCompileInputs.cache
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\obj\Debug\net9.0\Sudoku.sourcelink.json
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\obj\Debug\net9.0\Sudoku.dll
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\obj\Debug\net9.0\refint\Sudoku.dll
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\obj\Debug\net9.0\Sudoku.pdb
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\obj\Debug\net9.0\Sudoku.genruntimeconfig.cache
+C:\Users\gamer\Documents\VSCode\MathGame\Sudoku\obj\Debug\net9.0\ref\Sudoku.dll

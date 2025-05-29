@@ -684,6 +684,16 @@
             "related": ".xml"
           }
         }
+      },
+      "Sudoku/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Sudoku.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Sudoku.dll": {}
+        }
       }
     }
   },
@@ -1643,12 +1653,18 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "Sudoku/1.0.0": {
+      "type": "project",
+      "path": "../Sudoku/Sudoku.csproj",
+      "msbuildProject": "../Sudoku/Sudoku.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
       "MSTest >= 3.6.4",
-      "Microsoft.NET.Test.Sdk >= 17.12.0"
+      "Microsoft.NET.Test.Sdk >= 17.12.0",
+      "Sudoku >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -1675,7 +1691,11 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\gamer\\Documents\\VSCode\\MathGame\\Sudoku\\Sudoku.csproj": {
+              "projectPath": "C:\\Users\\gamer\\Documents\\VSCode\\MathGame\\Sudoku\\Sudoku.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

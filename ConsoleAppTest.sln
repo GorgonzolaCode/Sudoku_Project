@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathProblems", "ConsoleAppT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku", "Sudoku\Sudoku.csproj", "{CA73A0A7-6E74-4F66-BE9D-546BF8BD3ABA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuTester", "SudokuTester\SudokuTester.csproj", "{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{CA73A0A7-6E74-4F66-BE9D-546BF8BD3ABA}.Release|x64.Build.0 = Release|Any CPU
 		{CA73A0A7-6E74-4F66-BE9D-546BF8BD3ABA}.Release|x86.ActiveCfg = Release|Any CPU
 		{CA73A0A7-6E74-4F66-BE9D-546BF8BD3ABA}.Release|x86.Build.0 = Release|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Debug|x64.Build.0 = Debug|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Debug|x86.Build.0 = Debug|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Release|x64.ActiveCfg = Release|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Release|x64.Build.0 = Release|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Release|x86.ActiveCfg = Release|Any CPU
+		{DBAEEF79-3F4B-4B64-99B2-084C7EE8553B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

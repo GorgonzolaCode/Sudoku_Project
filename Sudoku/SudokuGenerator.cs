@@ -144,7 +144,7 @@ public class SudokuGenerator : SudokuInterface
     public override string ToString()
     {
         string result = "";
-        string headFoot = String.Format("{0, 31}", "-------------------------------") + "\n";
+        string headFoot = String.Format("{0, 31}", "-------------------------------") + Environment.NewLine;
         string line;
 
         for (int row = 0; row < 9; row++)
@@ -159,7 +159,7 @@ public class SudokuGenerator : SudokuInterface
                 line += String.Format("{0, -3}", String.Format("{0, 2}", value));
             }
             line += "|";
-            result += line + "\n";
+            result += line + Environment.NewLine;
         }
         result += headFoot;
 

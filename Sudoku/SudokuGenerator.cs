@@ -33,7 +33,7 @@ public class SudokuGenerator : SudokuInterface
 
     private void shuffle()
     {
-        shuffleCols();
+        //shuffleCols();
         //shuffleColBlocks()
         //shuffleRows()
         //shuffleRowBlocks()
@@ -141,7 +141,7 @@ public class SudokuGenerator : SudokuInterface
         return _matrix[index];
     }
 
-    public string toString()
+    public override string ToString()
     {
         string result = "";
         string headFoot = String.Format("{0, 31}", "-------------------------------") + "\n";

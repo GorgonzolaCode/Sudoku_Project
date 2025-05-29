@@ -6,14 +6,14 @@ namespace Sudoku;
 public interface SudokuInterface
 {
 
-    void setCell(int row, int col, int value);
-    void generateBoard();
+    public void setCell(int row, int col, int value);
+    public void generateBoard();
 
 
+    public abstract string ToString();
 
-    string toString();
-    void print()
+    public void print()
     {
-        Console.WriteLine(toString());
+        Console.WriteLine(ToString());
     }
 }

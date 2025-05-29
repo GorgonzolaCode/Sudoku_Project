@@ -4,6 +4,6 @@ using Sudoku;
 Console.WriteLine("Hello, World!");
 
 
-SudokuInterface gen = new SimpleSudoku();
+SudokuInterface gen = new SudokuGenerator();
 gen.generateBoard();
 gen.print();

@@ -5,4 +5,5 @@ Console.WriteLine("Hello, World!");
 
 
 SudokuInterface gen = new SimpleSudoku();
+gen.generateBoard();
 gen.print();

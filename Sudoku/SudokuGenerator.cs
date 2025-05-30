@@ -1,5 +1,6 @@
 using System;
 using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 
@@ -30,6 +31,76 @@ public class SudokuGenerator : SudokuInterface
         }
 
     }
+
+    public bool isValid()
+    {
+        return blocksValid() && rowsValid() && colsValid();
+    }
+
+    public bool colsValid()
+    {
+        bool[] found;
+
+        for (int col = 0; col < 9; col++)
+        {
+            found = new bool[9];
+            for (int i = 0; i < 9; i++)
+            {
+                int value = getCell(i, col);
+                if (value == 0) continue;
+                if (found[value - 1]) return false;
+                found[value - 1] = true;
+            }
+        }
+
+        return true;
+    }
+
+    public bool rowsValid()
+    {
+        bool[] found;
+
+        for (int row = 0; row < 9; row++)
+        {
+            found = new bool[9];
+            for (int i = 0; i < 9; i++)
+            {
+                int value = getCell(row, i);
+                if (value == 0) continue;
+                if (found[value - 1]) return false;
+                found[value - 1] = true;
+            }
+        }
+
+        return true;
+    }
+
+    public bool blocksValid()
+    {
+        bool[] found;
+
+        for (int block = 0; block < 9; block++)
+        {
+            int firstPosCol = block % 3 * 3;
+            int firstPosRow = block / 3 * 3;
+
+            found = new bool[9];
+            for (int i = 0; i < 9; i++)
+            {
+                int curCol = firstPosCol + i % 3;
+                int curRow = firstPosRow + i / 3;
+
+                int value = getCell(curRow, curCol);
+                if (value == 0) continue;
+                if (found[value - 1]) return false;
+                found[value - 1] = true;
+            }
+        }
+
+        return true;
+    }
+
+
 
     private void shuffle()
     {
@@ -213,13 +284,13 @@ public class SudokuGenerator : SudokuInterface
         else return;
     }
 
-    private int getCell(int row, int col)
+    public int getCell(int row, int col)
     {
         int index = row * 9 + col;
         return _matrix[index];
     }
 
-    private int getCell(int index)
+    public int getCell(int index)
     {
         return _matrix[index];
     }

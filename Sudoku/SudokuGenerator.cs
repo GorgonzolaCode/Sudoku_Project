@@ -18,7 +18,7 @@ public class SudokuGenerator : SudokuInterface
         shuffle();
     }
 
-    private void setBoard()
+    public void setBoard()
     {
         for (int i = 0; i < 81; i++)
         {
@@ -33,14 +33,55 @@ public class SudokuGenerator : SudokuInterface
 
     private void shuffle()
     {
-        //shuffleCols();
-        //shuffleColBlocks()
-        //shuffleRows()
-        //shuffleRowBlocks()
-        //swapPartialCols()
-        //swapPartialRows()
-        //swapNumbers()
+        shuffleCols();
+        shuffleColBlocks();
+        shuffleRows();
+        shuffleRowBlocks();
+        //swapPartialCols();
+        //swapPartialRows();
+        //swapNumbers();
     }
+
+    private void shuffleCols()
+    {
+        shuffleLines(false);
+    }
+
+    private void shuffleRows()
+    {
+        shuffleLines(true);
+    }
+
+    private void shuffleLines(bool isRow)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            int ranNum = random.Next(4);
+
+            switch (ranNum)
+            {
+                case 0:
+                    swapLines(0, 1, isRow, i);
+                    break;
+                case 1:
+                    swapLines(1, 2, isRow, i);
+                    break;
+                case 2:
+                    swapLines(0, 2, isRow, i);
+                    break;
+
+                default: return;
+            }
+        }
+    }
+
+
+    public void swapLines(int i1, int i2, bool isRow, int block)
+    {
+        if (!isValidLineSwapArg(i1, i2, isRow, block))
+            throw new Exception(String.Format("Swap-arguments are not valid"));
+    }
+
 
     private void shuffleColBlocks()
     {
@@ -48,13 +89,16 @@ public class SudokuGenerator : SudokuInterface
 
         switch (ranNum)
         {
-            case 0: swapBlocks(0, 0, 0, 1);
+            case 0:
+                swapBlocks(0, 0, 0, 1);
                 break;
-            case 1: swapBlocks(0, 0, 0, 2);
+            case 1:
+                swapBlocks(0, 0, 0, 2);
                 break;
-            case 2: swapBlocks(0, 0, 1, 2);
+            case 2:
+                swapBlocks(0, 0, 1, 2);
                 break;
-            
+
             default: return;
         }
 
@@ -125,6 +169,14 @@ public class SudokuGenerator : SudokuInterface
         {
             if (c1 != 0 || c2 != 0) return false;
         }
+        return true;
+    }
+
+    public static bool isValidLineSwapArg(int i1, int i2, bool isRow, int block)
+    {
+        if (i1 < 0 || i2 < 0 || block < 0) return false;
+        if (i1 >= 9 || i2 >= 9 || block >= 3) return false;
+        
         return true;
     }
 

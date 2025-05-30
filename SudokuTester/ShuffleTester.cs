@@ -13,9 +13,9 @@ public sealed class ShuffleTester
     public void setup()
     {
         sudoku1 = new SudokuGenerator();
-        sudoku1.generateBoard();
+        sudoku1.setBoard();
         sudoku2 = new SudokuGenerator();
-        sudoku2.generateBoard();
+        sudoku2.setBoard();
     }
 
 

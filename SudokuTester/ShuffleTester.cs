@@ -200,8 +200,20 @@ public sealed class ShuffleTester
         Assert.AreEqual(expected, sudoku2.ToString().Trim());
     }
 
-
-
+    [TestMethod]
+    public void testValidity()
+    {
+        int value = sudoku2.getCell(0, 0);
+        sudoku2.setCell(0, 0, value % 9 + 1);
+        bool validity = sudoku2.colsValid();
+        Assert.IsFalse(validity);
+        validity = sudoku2.rowsValid();
+        Assert.IsFalse(validity);
+        validity = sudoku2.blocksValid();
+        Assert.IsFalse(validity);
+        sudoku2.setCell(0, 0, value);
+        Assert.IsTrue(sudoku2.isValid());
+    }
 
 
 

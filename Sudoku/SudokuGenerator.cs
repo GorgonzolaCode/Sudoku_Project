@@ -42,17 +42,17 @@ public class SudokuGenerator : SudokuInterface
         //swapNumbers()
     }
 
-    private void shuffleCols()
+    private void shuffleColBlocks()
     {
         int ranNum = random.Next(4);
 
         switch (ranNum)
         {
-            case 0: swapCols(0, 1);
+            case 0: swapColBlocks(0, 1);
                 break;
-            case 1: swapCols(0, 2);
+            case 1: swapColBlocks(0, 2);
                 break;
-            case 2: swapCols(1, 2);
+            case 2: swapColBlocks(1, 2);
                 break;
             
             default: return;
@@ -60,7 +60,7 @@ public class SudokuGenerator : SudokuInterface
 
     }
 
-    private void swapCols(int c1, int c2)
+    public void swapColBlocks(int c1, int c2)
     {
         if (c1 < 0 || c2 < 0 || c1 >= 3 || c2 >= 3)
             throw new Exception(String.Format("Swapped columns do not exist: {0}, {1}", c1, c2));
@@ -77,29 +77,29 @@ public class SudokuGenerator : SudokuInterface
         }
     }
 
-    private void swapBlocks(int r1, int r2, int c1, int c2)
+    public void swapBlocks(int r1, int r2, int c1, int c2)
     {
         if (!isValidSwapArg(r1,r2,c1,c2))
-            throw new Exception(String.Format("Swapping arguments are not valid"));
+            throw new Exception(String.Format("Swap-arguments are not valid"));
 
         int rowLimit = 3;
         int colLimit = 3;
-        if (r1 == r2) rowLimit = 9;
-        if (c1 == c2) colLimit = 9;
+        if (r1 == r2 && r1 == 0) rowLimit = 9;
+        if (c1 == c2 && c1 == 0) colLimit = 9;
 
         for (int row = 0; row < rowLimit; row++)
         {
             for (int col = 0; col < colLimit; col++)
             {
                 int temp1 = getCell(row + 3 * r1, col + 3 * c1);
-                int temp2 = getCell(row + 3 * r1, col + 3 * c2);
-                setCell(row, col + 3 * c1, temp2);
-                setCell(row, col + 3 * c2, temp1);
+                int temp2 = getCell(row + 3 * r2, col + 3 * c2);
+                setCell(row + 3 * r1, col + 3 * c1, temp2);
+                setCell(row + 3 * r2, col + 3 * c2, temp1);
             }
         }
     }
 
-    private bool isValidSwapArg(int r1, int r2, int c1, int c2)
+    public static bool isValidSwapArg(int r1, int r2, int c1, int c2)
     {
         if (r1 < 0 || r2 < 0 || c1 < 0 || c2 < 0) return false;
         if (r1 >= 3 || r2 >= 3 || c1 >= 3 || c2 >= 3) return false;

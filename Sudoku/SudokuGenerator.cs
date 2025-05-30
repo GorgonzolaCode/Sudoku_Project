@@ -80,6 +80,19 @@ public class SudokuGenerator : SudokuInterface
     {
         if (!isValidLineSwapArg(i1, i2, isRow, block))
             throw new Exception(String.Format("Swap-arguments are not valid"));
+
+        for (int i = 0; i < 9; i++)
+        {
+            int row1 = isRow ? i1 : i;
+            int row2 = isRow ? i2 : i;
+            int col1 = isRow ? i : i1;
+            int col2 = isRow ? i : i2;
+
+            int temp1 = getCell(row1, col1);
+            int temp2 = getCell(row2, col2);
+            setCell(row1, col1, temp2);
+            setCell(row2, col2, temp1);
+        }
     }
 
 
@@ -141,7 +154,7 @@ public class SudokuGenerator : SudokuInterface
 
     public void swapBlocks(int r1, int r2, int c1, int c2)
     {
-        if (!isValidSwapArg(r1,r2,c1,c2))
+        if (!isValidBlockSwapArg(r1,r2,c1,c2))
             throw new Exception(String.Format("Swap-arguments are not valid"));
 
         int rowLimit = 3;
@@ -161,7 +174,7 @@ public class SudokuGenerator : SudokuInterface
         }
     }
 
-    public static bool isValidSwapArg(int r1, int r2, int c1, int c2)
+    public static bool isValidBlockSwapArg(int r1, int r2, int c1, int c2)
     {
         if (r1 < 0 || r2 < 0 || c1 < 0 || c2 < 0) return false;
         if (r1 >= 3 || r2 >= 3 || c1 >= 3 || c2 >= 3) return false;
@@ -175,8 +188,8 @@ public class SudokuGenerator : SudokuInterface
     public static bool isValidLineSwapArg(int i1, int i2, bool isRow, int block)
     {
         if (i1 < 0 || i2 < 0 || block < 0) return false;
-        if (i1 >= 9 || i2 >= 9 || block >= 3) return false;
-        
+        if (i1 >= 3 || i2 >= 3 || block >= 3) return false;
+        //27
         return true;
     }
 

@@ -110,7 +110,45 @@ public class SudokuGenerator : SudokuInterface
         shuffleRowBlocks();
         //swapPartialCols();
         //swapPartialRows();
-        //swapNumbers();
+        swapNumbers();
+    }
+
+    public void swapNumbers()
+    {
+        int[] newNums = getNewNumbers();
+
+        for (int i = 0; i < 81; i++)
+        {
+            int value = getCell(i);
+            setCell(i, newNums[value-1]);
+        }
+    }
+
+    private int[] getNewNumbers()
+    {
+        int[] numbers = new int[9];
+
+        for (int i = 0; i < 9; i++)
+        {
+            numbers[i] = i + 1;
+        }
+
+        for (int i = 0; i < 9; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                bool doSwap = random.Next(2) == 1;
+                if (doSwap)
+                {
+                    int temp1 = numbers[i];
+                    int temp2 = numbers[j];
+                    numbers[i] = temp2;
+                    numbers[j] = temp1;
+                }
+            }
+        }
+
+        return numbers;
     }
 
     private void shuffleCols()

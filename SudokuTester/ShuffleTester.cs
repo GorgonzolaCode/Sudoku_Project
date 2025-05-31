@@ -215,6 +215,32 @@ public sealed class ShuffleTester
         Assert.IsTrue(sudoku2.isValid());
     }
 
+    [TestMethod]
+    public void testNumberSwap()
+    {
+        sudoku2.swapNumbers();
+        (sudoku2 as SudokuInterface).print();
+        Assert.IsTrue(sudoku2.isValid());
+    }
+
+    [TestMethod]
+    public void testFullShuffle()
+    {
+        sudoku2.shuffle();
+        (sudoku2 as SudokuInterface).print();
+        Assert.IsTrue(sudoku2.isValid());
+        sudoku2.shuffle();
+        Assert.IsTrue(sudoku2.isValid());
+        sudoku2.shuffle();
+        Assert.IsTrue(sudoku2.isValid());
+        sudoku2.shuffle();
+        Assert.IsTrue(sudoku2.isValid());
+    }
+
+
+
+
+
 
 
 }

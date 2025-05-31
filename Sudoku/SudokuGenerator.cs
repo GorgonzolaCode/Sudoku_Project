@@ -102,7 +102,7 @@ public class SudokuGenerator : SudokuInterface
 
 
 
-    private void shuffle()
+    public void shuffle()
     {
         shuffleCols();
         shuffleColBlocks();
@@ -192,10 +192,10 @@ public class SudokuGenerator : SudokuInterface
 
         for (int i = 0; i < 9; i++)
         {
-            int row1 = isRow ? i1 : i;
-            int row2 = isRow ? i2 : i;
-            int col1 = isRow ? i : i1;
-            int col2 = isRow ? i : i2;
+            int row1 = isRow ? i1 + 3*block : i;
+            int row2 = isRow ? i2 + 3*block : i;
+            int col1 = isRow ? i : i1 + 3*block;
+            int col2 = isRow ? i : i2 + 3*block;
 
             int temp1 = getCell(row1, col1);
             int temp2 = getCell(row2, col2);
@@ -265,11 +265,10 @@ public class SudokuGenerator : SudokuInterface
     {
         if (!isValidBlockSwapArg(r1,r2,c1,c2))
             throw new Exception(String.Format("Swap-arguments are not valid"));
+        if (r1 == r2 && c1 == c2) return;
 
-        int rowLimit = 3;
-        int colLimit = 3;
-        if (r1 == r2 && r1 == 0) rowLimit = 9;
-        if (c1 == c2 && c1 == 0) colLimit = 9;
+        int rowLimit = (r1 == r2 && r1 == 0)? 9 : 3;
+        int colLimit = (c1 == c2 && c1 == 0)? 9 : 3;
 
         for (int row = 0; row < rowLimit; row++)
         {
@@ -304,7 +303,7 @@ public class SudokuGenerator : SudokuInterface
 
     public void setCell(int row, int col, int value)
     {
-        if (row < 9 && col < 9 && value < 9 && row >= 0 && col >= 0 && value >= 0)
+        if (row < 9 && col < 9 && value <= 9 && row >= 0 && col >= 0 && value >= 0)
         {
             int index = row * 9 + col;
 
@@ -315,7 +314,7 @@ public class SudokuGenerator : SudokuInterface
 
     public void setCell(int index, int value)
     {
-        if (index >= 0 && index < 81)
+        if (index >= 0 && index < 81 && value <= 9 && value >= 0)
         {
             _matrix[index] = value;
         }

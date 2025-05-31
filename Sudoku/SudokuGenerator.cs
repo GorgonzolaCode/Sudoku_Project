@@ -114,8 +114,8 @@ public class SudokuGenerator : SudokuInterface
 
     public void swapPartials()
     {
-        swapPartialColsInTriplets(); //simple version
-        swapPartialRowsInTripletsV();//flexible version
+        swapPartialColsInTripletsV();
+        swapPartialRowsInTripletsV();
     }
 
     private void swapPartialRowsInTripletsV()
@@ -206,14 +206,68 @@ public class SudokuGenerator : SudokuInterface
     private void swapPartialColsInTripletsV(int col, int rowBlock)
     {
         if (random.Next(2)==1)
-            swapPartialRowsInTripletsV(0, 1, col, rowBlock);
+            swapPartialColsInTripletsV(0, 1, col, rowBlock);
         if (random.Next(2)==1)
-            swapPartialRowsInTripletsV(0, 2, col, rowBlock);
+            swapPartialColsInTripletsV(0, 2, col, rowBlock);
         if (random.Next(2)==1)
-            swapPartialRowsInTripletsV(1, 2, col, rowBlock);
+            swapPartialColsInTripletsV(1, 2, col, rowBlock);
     }
 
-    private void swapPartialColsInTriplets()
+    private void swapPartialColsInTripletsV(int row1, int row2, int inCol, int rowBlock)
+    {
+        int[]? positions = findForPCITV(row1, row2, inCol, rowBlock);
+		if (positions is null) return;
+
+		foreach (int col in positions)
+		{
+			int temp1 = getCell(row1 + 3 * rowBlock, col);
+			int temp2 = getCell(row2 + 3 * rowBlock, col);
+			setCell(row1 + 3 * rowBlock, col, temp2);
+			setCell(row2 + 3 * rowBlock, col, temp1);
+		}
+    }
+
+    private int[]? findForPCITV(int row1, int row2, int col, int rowBlock)
+    {
+        int[]? result = new int[3];
+        result[0] = col;
+
+        row1 += 3 * rowBlock;
+        row2 += 3 * rowBlock;
+        int toFind = getCell(row2, col);
+
+        for (int c = 3; c < 9; c++)
+        {
+            int curVal = getCell(row1, c);
+            if (curVal == toFind)
+            {
+                result[1] = c;
+                break;
+            }
+        }
+        int colBlock = result[1] / 3;
+        colBlock = colBlock == 2 ? 1 : 2;
+		toFind = getCell(result[1], row2);
+
+		for (int r = 3 * colBlock; r < 3 * colBlock + 3; r++)
+		{
+			int curVal = getCell(r, row1);
+			if (curVal == toFind)
+			{
+				result[2] = r;
+				break;
+			}
+		}
+		//check if triplet was found
+		int firstValue = getCell(result[0], row1);
+		int lastValue = getCell(result[2], row2);
+		if (result[2] == 0 || firstValue != lastValue) return null;
+
+		return result;
+    }
+
+	//TODO remove when not needed anymore
+	private void swapPartialColsInTriplets()
 	{
 		for (int rowBlock = 0; rowBlock < 3; rowBlock++)
 		{

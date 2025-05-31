@@ -224,11 +224,13 @@ public sealed class ShuffleTester
     }
 
     [TestMethod]
-    public void testPartialSwapColTriplets()
+    public void testPartialSwapPartials()
     {
         (sudoku2 as SudokuInterface).print();
         sudoku2.swapPartials();
         (sudoku2 as SudokuInterface).print();
+        sudoku2.swapPartials();
+        for (int i = 0; i < 100; i++) sudoku2.swapPartials();
         Assert.IsTrue(sudoku2.isValid());
     }
 
@@ -239,11 +241,8 @@ public sealed class ShuffleTester
         sudoku2.shuffle();
         (sudoku2 as SudokuInterface).print();
         Assert.IsTrue(sudoku2.isValid());
-        sudoku2.shuffle();
-        Assert.IsTrue(sudoku2.isValid());
-        sudoku2.shuffle();
-        Assert.IsTrue(sudoku2.isValid());
-        sudoku2.shuffle();
+        for (int i = 0; i < 100; i++) sudoku2.shuffle();
+        (sudoku2 as SudokuInterface).print();
         Assert.IsTrue(sudoku2.isValid());
     }
 

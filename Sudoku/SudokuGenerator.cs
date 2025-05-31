@@ -247,67 +247,24 @@ public class SudokuGenerator : SudokuInterface
         }
         int colBlock = result[1] / 3;
         colBlock = colBlock == 2 ? 1 : 2;
-		toFind = getCell(result[1], row2);
+		toFind = getCell(row2, result[1]);
 
-		for (int r = 3 * colBlock; r < 3 * colBlock + 3; r++)
+		for (int c = 3 * colBlock; c < 3 * colBlock + 3; c++)
 		{
-			int curVal = getCell(r, row1);
+			int curVal = getCell(row1, c);
 			if (curVal == toFind)
 			{
-				result[2] = r;
+				result[2] = c;
 				break;
 			}
 		}
 		//check if triplet was found
-		int firstValue = getCell(result[0], row1);
-		int lastValue = getCell(result[2], row2);
+		int firstValue = getCell(row1, result[0]);
+		int lastValue = getCell(row2, result[2]);
 		if (result[2] == 0 || firstValue != lastValue) return null;
 
 		return result;
     }
-
-	//TODO remove when not needed anymore
-	private void swapPartialColsInTriplets()
-	{
-		for (int rowBlock = 0; rowBlock < 3; rowBlock++)
-		{
-			for (int col = 0; col < 3; col++)
-			{
-				int variation = random.Next(4);
-				if (variation == 3) continue;
-				int row1 = variation == 2 ? 1 : 0;
-				int row2 = variation == 0 ? 1 : 2;
-
-				#region security check
-
-				bool[] usedNum = new bool[9];
-				for (int i = 0; i < 3; i++)
-				{
-					int value = getCell(row1 + 3 * rowBlock, col + 3 * i);
-					usedNum[value - 1] = true;
-					value = getCell(row2 + 3 * rowBlock, col + 3 * i);
-					usedNum[value - 1] = true;
-				}
-				int usedCount = 0;
-				for (int i = 0; i < usedNum.Length; i++)
-				{
-					if (usedNum[i]) usedCount++;
-				}
-				//if check fails, don't do partial swap
-				if (!(usedCount == 3)) continue;
-
-				#endregion
-
-				for (int colBlock = 0; colBlock < 3; colBlock++)
-				{
-					int temp1 = getCell(row1 + rowBlock * 3, col + colBlock * 3);
-					int temp2 = getCell(row2 + rowBlock * 3, col + colBlock * 3);
-					setCell(row1 + rowBlock * 3, col + colBlock * 3, temp2);
-					setCell(row2 + rowBlock * 3, col + colBlock * 3, temp1);
-				}
-			}
-		}
-	}
 
     public void swapNumbers()
     {

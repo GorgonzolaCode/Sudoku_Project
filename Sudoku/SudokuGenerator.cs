@@ -114,8 +114,8 @@ public class SudokuGenerator : SudokuInterface
 
     public void swapPartials()
     {
-        swapPartialColsInTriplets();
-        swapPartialRowsInTripletsV();
+        swapPartialColsInTriplets(); //simple version
+        swapPartialRowsInTripletsV();//flexible version
     }
 
     private void swapPartialRowsInTripletsV()
@@ -139,11 +139,19 @@ public class SudokuGenerator : SudokuInterface
             swapPartialRowsInTripletsV(1, 2, row, colBlock);
     }
 
-    private void swapPartialRowsInTripletsV(int col1, int col2, int row, int colBlock)
-    {
-        int[]? positions = findForPRITV(col1, col2, row, colBlock);
-        // TODO
-    }
+	private void swapPartialRowsInTripletsV(int col1, int col2, int inRow, int colBlock)
+	{
+		int[]? positions = findForPRITV(col1, col2, inRow, colBlock);
+		if (positions is null) return;
+
+		foreach (int row in positions)
+		{
+			int temp1 = getCell(row, col1 + 3 * colBlock);
+			int temp2 = getCell(row, col2 + 3 * colBlock);
+			setCell(row, col1 + 3 * colBlock, temp2);
+			setCell(row, col2 + 3 * colBlock, temp1);
+		}
+	}
 
     private int[]? findForPRITV(int col1, int col2, int row, int colBlock)
     {
@@ -184,47 +192,68 @@ public class SudokuGenerator : SudokuInterface
 		return result;
     }
 
-    private void swapPartialColsInTriplets()
-    {
-        for (int rowBlock = 0; rowBlock < 3; rowBlock++)
+	private void swapPartialColsInTripletsV()
+	{
+		for (int rowBlock = 0; rowBlock < 3; rowBlock++)
         {
             for (int col = 0; col < 3; col++)
             {
-                int variation = random.Next(4);
-                if (variation == 3) continue;
-                int row1 = variation == 2 ? 1 : 0;
-                int row2 = variation == 0 ? 1 : 2;
-
-                #region security check
-
-                bool[] usedNum = new bool[9];
-                for (int i = 0; i < 3; i++)
-                {
-                    int value = getCell(row1 + 3 * rowBlock, col + 3 * i);
-                    usedNum[value - 1] = true;
-                    value = getCell(row2 + 3 * rowBlock, col + 3 * i);
-                    usedNum[value - 1] = true;
-                }
-                int usedCount = 0;
-                for (int i = 0; i < usedNum.Length; i++)
-                {
-                    if (usedNum[i]) usedCount++;
-                }
-                //if check fails, don't do partial swap
-                if (!(usedCount == 3)) continue;
-
-                #endregion
-
-                for (int colBlock = 0; colBlock < 3; colBlock++)
-                {
-                    int temp1 = getCell(row1 + rowBlock * 3, col + colBlock * 3);
-                    int temp2 = getCell(row2 + rowBlock * 3, col + colBlock * 3);
-                    setCell(row1 + rowBlock * 3, col + colBlock * 3, temp2);
-                    setCell(row2 + rowBlock * 3, col + colBlock * 3, temp1);
-                }
+                swapPartialColsInTripletsV(col, rowBlock);
             }
         }
+	}
+
+    private void swapPartialColsInTripletsV(int col, int rowBlock)
+    {
+        if (random.Next(2)==1)
+            swapPartialRowsInTripletsV(0, 1, col, rowBlock);
+        if (random.Next(2)==1)
+            swapPartialRowsInTripletsV(0, 2, col, rowBlock);
+        if (random.Next(2)==1)
+            swapPartialRowsInTripletsV(1, 2, col, rowBlock);
     }
+
+    private void swapPartialColsInTriplets()
+	{
+		for (int rowBlock = 0; rowBlock < 3; rowBlock++)
+		{
+			for (int col = 0; col < 3; col++)
+			{
+				int variation = random.Next(4);
+				if (variation == 3) continue;
+				int row1 = variation == 2 ? 1 : 0;
+				int row2 = variation == 0 ? 1 : 2;
+
+				#region security check
+
+				bool[] usedNum = new bool[9];
+				for (int i = 0; i < 3; i++)
+				{
+					int value = getCell(row1 + 3 * rowBlock, col + 3 * i);
+					usedNum[value - 1] = true;
+					value = getCell(row2 + 3 * rowBlock, col + 3 * i);
+					usedNum[value - 1] = true;
+				}
+				int usedCount = 0;
+				for (int i = 0; i < usedNum.Length; i++)
+				{
+					if (usedNum[i]) usedCount++;
+				}
+				//if check fails, don't do partial swap
+				if (!(usedCount == 3)) continue;
+
+				#endregion
+
+				for (int colBlock = 0; colBlock < 3; colBlock++)
+				{
+					int temp1 = getCell(row1 + rowBlock * 3, col + colBlock * 3);
+					int temp2 = getCell(row2 + rowBlock * 3, col + colBlock * 3);
+					setCell(row1 + rowBlock * 3, col + colBlock * 3, temp2);
+					setCell(row2 + rowBlock * 3, col + colBlock * 3, temp1);
+				}
+			}
+		}
+	}
 
     public void swapNumbers()
     {

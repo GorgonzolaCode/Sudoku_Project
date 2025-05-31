@@ -104,13 +104,126 @@ public class SudokuGenerator : SudokuInterface
 
     public void shuffle()
     {
+        swapPartials();
         shuffleCols();
         shuffleColBlocks();
         shuffleRows();
         shuffleRowBlocks();
-        //swapPartialCols();
-        //swapPartialRows();
         swapNumbers();
+    }
+
+    public void swapPartials()
+    {
+        swapPartialColsInTriplets();
+        swapPartialRowsInTripletsV();
+    }
+
+    private void swapPartialRowsInTripletsV()
+    {
+        for (int colBlock = 0; colBlock < 3; colBlock++)
+        {
+            for (int row = 0; row < 3; row++)
+            {
+                swapPartialRowsInTripletsV(row, colBlock);
+            }
+        }
+    }
+
+    private void swapPartialRowsInTripletsV(int row, int colBlock)
+    {
+        if (random.Next(2)==1)
+            swapPartialRowsInTripletsV(0, 1, row, colBlock);
+        if (random.Next(2)==1)
+            swapPartialRowsInTripletsV(0, 2, row, colBlock);
+        if (random.Next(2)==1)
+            swapPartialRowsInTripletsV(1, 2, row, colBlock);
+    }
+
+    private void swapPartialRowsInTripletsV(int col1, int col2, int row, int colBlock)
+    {
+        int[]? positions = findForPRITV(col1, col2, row, colBlock);
+        // TODO
+    }
+
+    private int[]? findForPRITV(int col1, int col2, int row, int colBlock)
+    {
+        int[]? result = new int[3];
+        result[0] = row;
+
+        col1 += 3 * colBlock;
+        col2 += 3 * colBlock;
+        int toFind = getCell(row, col2);
+
+        for (int r = 3; r < 9; r++)
+        {
+            int curVal = getCell(r, col1);
+            if (curVal == toFind)
+            {
+                result[1] = r;
+                break;
+            }
+        }
+        int rowBlock = result[1] / 3;
+        rowBlock = rowBlock == 2 ? 1 : 2;
+		toFind = getCell(result[1], col2);
+
+		for (int r = 3 * rowBlock; r < 3 * rowBlock + 3; r++)
+		{
+			int curVal = getCell(r, col1);
+			if (curVal == toFind)
+			{
+				result[2] = r;
+				break;
+			}
+		}
+		//check if triplet was found
+		int firstValue = getCell(result[0], col1);
+		int lastValue = getCell(result[2], col2);
+		if (result[2] == 0 || firstValue != lastValue) return null;
+
+		return result;
+    }
+
+    private void swapPartialColsInTriplets()
+    {
+        for (int rowBlock = 0; rowBlock < 3; rowBlock++)
+        {
+            for (int col = 0; col < 3; col++)
+            {
+                int variation = random.Next(4);
+                if (variation == 3) continue;
+                int row1 = variation == 2 ? 1 : 0;
+                int row2 = variation == 0 ? 1 : 2;
+
+                #region security check
+
+                bool[] usedNum = new bool[9];
+                for (int i = 0; i < 3; i++)
+                {
+                    int value = getCell(row1 + 3 * rowBlock, col + 3 * i);
+                    usedNum[value - 1] = true;
+                    value = getCell(row2 + 3 * rowBlock, col + 3 * i);
+                    usedNum[value - 1] = true;
+                }
+                int usedCount = 0;
+                for (int i = 0; i < usedNum.Length; i++)
+                {
+                    if (usedNum[i]) usedCount++;
+                }
+                //if check fails, don't do partial swap
+                if (!(usedCount == 3)) continue;
+
+                #endregion
+
+                for (int colBlock = 0; colBlock < 3; colBlock++)
+                {
+                    int temp1 = getCell(row1 + rowBlock * 3, col + colBlock * 3);
+                    int temp2 = getCell(row2 + rowBlock * 3, col + colBlock * 3);
+                    setCell(row1 + rowBlock * 3, col + colBlock * 3, temp2);
+                    setCell(row2 + rowBlock * 3, col + colBlock * 3, temp1);
+                }
+            }
+        }
     }
 
     public void swapNumbers()
@@ -120,7 +233,7 @@ public class SudokuGenerator : SudokuInterface
         for (int i = 0; i < 81; i++)
         {
             int value = getCell(i);
-            setCell(i, newNums[value-1]);
+            setCell(i, newNums[value - 1]);
         }
     }
 
@@ -184,7 +297,6 @@ public class SudokuGenerator : SudokuInterface
         }
     }
 
-
     public void swapLines(int i1, int i2, bool isRow, int block)
     {
         if (!isValidLineSwapArg(i1, i2, isRow, block))
@@ -203,7 +315,6 @@ public class SudokuGenerator : SudokuInterface
             setCell(row2, col2, temp1);
         }
     }
-
 
     private void shuffleColBlocks()
     {

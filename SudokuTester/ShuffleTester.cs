@@ -47,15 +47,8 @@ public sealed class ShuffleTester
     }
 
     [TestMethod]
-    public void testBlockSwapCol()
+    public void testBlockSwapColIdentical()
     {
-        Assert.AreEqual(sudoku1.ToString(), sudoku2.ToString());
-        sudoku1.swapColBlocks(0, 1);
-        sudoku2.swapBlocks(0, 0, 0, 1);
-        Assert.AreEqual(sudoku1.ToString(), sudoku2.ToString());
-        (sudoku1 as SudokuInterface).print();
-        sudoku1.swapColBlocks(0, 1);
-        sudoku2.swapBlocks(0, 0, 1, 0);
         Assert.AreEqual(sudoku1.ToString(), sudoku2.ToString());
         (sudoku1 as SudokuInterface).print();
         sudoku2.swapBlocks(0, 0, 1, 1);

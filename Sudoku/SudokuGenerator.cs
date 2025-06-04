@@ -114,11 +114,23 @@ public class SudokuGenerator : SudokuInterface
 
     public void swapPartials()
     {
-        swapPartialColsInTripletsV();
-        swapPartialRowsInTripletsV();
+        // TODO unify methods into one
+        swapPartialColsInTriplets();
+        swapPartialRowsInTriplets();
+
+        //TODO swap partials in pairs
     }
 
-    private void swapPartialRowsInTripletsV()
+    #region partial row swap in three pairs
+
+    /**
+        swaps three pairs of numbers
+        (1,2)
+        (2,3)
+        (3,1)
+        horizontally
+    **/
+    private void swapPartialRowsInTriplets()
     {
         for (int colBlock = 0; colBlock < 3; colBlock++)
         {
@@ -128,14 +140,14 @@ public class SudokuGenerator : SudokuInterface
             }
         }
     }
-
+    
     private void swapPartialRowsInTripletsV(int row, int colBlock)
     {
-        if (random.Next(2)==1)
+        if (random.Next(2) == 1)
             swapPartialRowsInTripletsV(0, 1, row, colBlock);
-        if (random.Next(2)==1)
+        if (random.Next(2) == 1)
             swapPartialRowsInTripletsV(0, 2, row, colBlock);
-        if (random.Next(2)==1)
+        if (random.Next(2) == 1)
             swapPartialRowsInTripletsV(1, 2, row, colBlock);
     }
 
@@ -192,16 +204,26 @@ public class SudokuGenerator : SudokuInterface
 		return result;
     }
 
-	private void swapPartialColsInTripletsV()
-	{
-		for (int rowBlock = 0; rowBlock < 3; rowBlock++)
+
+
+
+    /**
+        swaps three pairs of numbers
+        (1,2)
+        (2,3)
+        (3,1)
+        vertically
+    **/
+    private void swapPartialColsInTriplets()
+    {
+        for (int rowBlock = 0; rowBlock < 3; rowBlock++)
         {
             for (int col = 0; col < 3; col++)
             {
                 swapPartialColsInTripletsV(col, rowBlock);
             }
         }
-	}
+    }
 
     private void swapPartialColsInTripletsV(int col, int rowBlock)
     {
@@ -266,6 +288,11 @@ public class SudokuGenerator : SudokuInterface
 		return result;
     }
 
+
+    #endregion
+
+
+    //swaps nubers around globally 
     public void swapNumbers()
     {
         int[] newNums = getNewNumbers();
@@ -277,6 +304,7 @@ public class SudokuGenerator : SudokuInterface
         }
     }
 
+    //generates the numbers 1-9 in random order
     private int[] getNewNumbers()
     {
         int[] numbers = new int[9];
@@ -304,16 +332,19 @@ public class SudokuGenerator : SudokuInterface
         return numbers;
     }
 
+    //swaps around columns in each block
     private void shuffleCols()
     {
         shuffleLines(false);
     }
 
+    //swaps around rows in each block
     private void shuffleRows()
     {
         shuffleLines(true);
     }
 
+    //decides, what lines get swapped and does it
     private void shuffleLines(bool isRow)
     {
         for (int i = 0; i < 3; i++)
@@ -337,17 +368,18 @@ public class SudokuGenerator : SudokuInterface
         }
     }
 
-    public void swapLines(int i1, int i2, bool isRow, int block)
+    //swaps content of two specified lines
+    public void swapLines(int index1, int index2, bool isRow, int blockIndex)
     {
-        if (!isValidLineSwapArg(i1, i2, isRow, block))
+        if (!isValidLineSwapArg(index1, index2, isRow, blockIndex))
             throw new Exception(String.Format("Swap-arguments are not valid"));
 
         for (int i = 0; i < 9; i++)
         {
-            int row1 = isRow ? i1 + 3*block : i;
-            int row2 = isRow ? i2 + 3*block : i;
-            int col1 = isRow ? i : i1 + 3*block;
-            int col2 = isRow ? i : i2 + 3*block;
+            int row1 = isRow ? index1 + 3 * blockIndex : i;
+            int row2 = isRow ? index2 + 3 * blockIndex : i;
+            int col1 = isRow ? i : index1 + 3 * blockIndex;
+            int col2 = isRow ? i : index2 + 3 * blockIndex;
 
             int temp1 = getCell(row1, col1);
             int temp2 = getCell(row2, col2);
@@ -356,6 +388,8 @@ public class SudokuGenerator : SudokuInterface
         }
     }
 
+
+    //decides, what block columns get swapped and does it
     private void shuffleColBlocks()
     {
         int ranNum = random.Next(4);
@@ -377,99 +411,88 @@ public class SudokuGenerator : SudokuInterface
 
     }
 
+    //decides, what block rows get swapped and does it
     private void shuffleRowBlocks()
     {
         int ranNum = random.Next(4);
 
         switch (ranNum)
         {
-            case 0: swapBlocks(0, 1, 0, 0);
+            case 0:
+                swapBlocks(0, 1, 0, 0);
                 break;
-            case 1: swapBlocks(0, 2, 0, 0);
+            case 1:
+                swapBlocks(0, 2, 0, 0);
                 break;
-            case 2: swapBlocks(1, 2, 0, 0);
+            case 2:
+                swapBlocks(1, 2, 0, 0);
                 break;
-            
+
             default: return;
         }
 
     }
 
-    public void swapColBlocks(int c1, int c2)
+    //swaps two block rows/columns
+    public void swapBlocks(int rowIndex1, int rowIndex2, int colIndex1, int colIndex2)
     {
-        if (c1 < 0 || c2 < 0 || c1 >= 3 || c2 >= 3)
-            throw new Exception(String.Format("Swapped columns do not exist: {0}, {1}", c1, c2));
-
-        for (int row = 0; row < 9; row++)
-        {
-            for (int col = 0; col < 3; col++)
-            {
-                int temp1 = getCell(row, col + 3 * c1);
-                int temp2 = getCell(row, col + 3 * c2);
-                setCell(row, col + 3 * c1, temp2);
-                setCell(row, col + 3 * c2, temp1);
-            }
-        }
-    }
-
-    public void swapBlocks(int r1, int r2, int c1, int c2)
-    {
-        if (!isValidBlockSwapArg(r1,r2,c1,c2))
+        if (!isValidBlockSwapArg(rowIndex1,rowIndex2,colIndex1,colIndex2))
             throw new Exception(String.Format("Swap-arguments are not valid"));
-        if (r1 == r2 && c1 == c2) return;
+        if (rowIndex1 == rowIndex2 && colIndex1 == colIndex2) return;
 
-        int rowLimit = (r1 == r2 && r1 == 0)? 9 : 3;
-        int colLimit = (c1 == c2 && c1 == 0)? 9 : 3;
+        int rowLimit = (rowIndex1 == rowIndex2 && rowIndex1 == 0)? 9 : 3;
+        int colLimit = (colIndex1 == colIndex2 && colIndex1 == 0)? 9 : 3;
 
         for (int row = 0; row < rowLimit; row++)
         {
             for (int col = 0; col < colLimit; col++)
             {
-                int temp1 = getCell(row + 3 * r1, col + 3 * c1);
-                int temp2 = getCell(row + 3 * r2, col + 3 * c2);
-                setCell(row + 3 * r1, col + 3 * c1, temp2);
-                setCell(row + 3 * r2, col + 3 * c2, temp1);
+                int temp1 = getCell(row + 3 * rowIndex1, col + 3 * colIndex1);
+                int temp2 = getCell(row + 3 * rowIndex2, col + 3 * colIndex2);
+                setCell(row + 3 * rowIndex1, col + 3 * colIndex1, temp2);
+                setCell(row + 3 * rowIndex2, col + 3 * colIndex2, temp1);
             }
         }
     }
 
-    public static bool isValidBlockSwapArg(int r1, int r2, int c1, int c2)
+    //checks for valid aruments
+    public static bool isValidBlockSwapArg(int rowIndex1, int rowIndex2, int colIndex1, int colIndex2)
     {
-        if (r1 < 0 || r2 < 0 || c1 < 0 || c2 < 0) return false;
-        if (r1 >= 3 || r2 >= 3 || c1 >= 3 || c2 >= 3) return false;
-        if (r1 != 0 || r2 != 0)
+        if (rowIndex1 < 0 || rowIndex2 < 0 || colIndex1 < 0 || colIndex2 < 0) return false;
+        if (rowIndex1 >= 3 || rowIndex2 >= 3 || colIndex1 >= 3 || colIndex2 >= 3) return false;
+        if (rowIndex1 != 0 || rowIndex2 != 0)
         {
-            if (c1 != 0 || c2 != 0) return false;
+            if (colIndex1 != 0 || colIndex2 != 0) return false;
         }
         return true;
     }
 
-    public static bool isValidLineSwapArg(int i1, int i2, bool isRow, int block)
+    //checks for valid aruments
+    public static bool isValidLineSwapArg(int index1, int index2, bool isRow, int block)
     {
-        if (i1 < 0 || i2 < 0 || block < 0) return false;
-        if (i1 >= 3 || i2 >= 3 || block >= 3) return false;
-        //27
+        if (index1 < 0 || index2 < 0 || block < 0) return false;
+        if (index1 >= 3 || index2 >= 3 || block >= 3) return false;
+
         return true;
     }
 
+    //inserts value if applicable
     public void setCell(int row, int col, int value)
     {
         if (row < 9 && col < 9 && value <= 9 && row >= 0 && col >= 0 && value >= 0)
         {
             int index = row * 9 + col;
-
             _matrix[index] = value;
         }
-        else return;
     }
 
+    //inserts value if applicable
     public void setCell(int index, int value)
     {
         if (index >= 0 && index < 81 && value <= 9 && value >= 0)
         {
             _matrix[index] = value;
         }
-        else return;
     }
 
     public int getCell(int row, int col)

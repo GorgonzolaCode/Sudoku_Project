@@ -1,0 +1,6 @@
+Sudoku/bin/*
+Sudoku/obj/*
+SudokuTester/bin/*
+SudokuTester/obj/*
+
+Sudoku/obj/Debug/net9.0/Sudoku.AssemblyInfo.cs
